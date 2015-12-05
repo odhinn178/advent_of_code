@@ -16,19 +16,25 @@ def main(argv):
 	house_data = np.zeros([grid_max * 2, grid_max * 2], dtype=np.int)
 
 	# Set initial position as map center
-	x = y = grid_max
+	xs = ys = grid_max
+	xr = yr = grid_max
 
 	# Initial position house gets a present
-	house_data[x][y] = 1
+	house_data[xs][ys] = 1
 
 	# For each entry in the sequence, parse the entry and calc delta
-	for m in moves:
+	for i, m in enumerate(moves):
 		delta = parse_move(m)
 		#print 'delta_xy = ' + str(delta[0]) + ',' + str(delta[1])
-		x += delta[0]
-		y += delta[1]
+		if (i % 2) == 0:
+			xr += delta[0]
+			yr += delta[1]
+			house_data[xr][yr] = 1
+		else:
+			xs += delta[0]
+			ys += delta[1]
+			house_data[xs][ys] = 1
 		#print 'xy = ' + str(x) + ',' + str(y)
-		house_data[x][y] = 1
 
 	# Find the number of houses that got at least one present
 	house_array = house_data.flatten()
